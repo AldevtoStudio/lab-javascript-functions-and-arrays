@@ -1,41 +1,78 @@
 // Iteration #1: Find the maximum
-function maxOfTwoNumbers() {}
-
-
+function maxOfTwoNumbers(a, b) {
+  return Math.max(a, b);
+}
 
 // Iteration #2: Find longest word
 const words = ['mystery', 'brother', 'aviator', 'crocodile', 'pearl', 'orchard', 'crackpot'];
 
-function findLongestWord() {}
+function findLongestWord(words) {
+  if (words.length === 0) return null;
+  if (words.length === 1) return words[0];
 
-
+  return words.sort(function (a, b) {
+    return b.length - a.length;
+  })[0];
+}
 
 // Iteration #3: Calculate the sum
 const numbers = [6, 12, 1, 18, 13, 16, 2, 1, 8, 10];
 
-function sumNumbers() {}
+function sumNumbers(numbers) {
+  if (numbers.length === 0) return 0;
+  if (numbers.length === 1) return numbers[0];
 
-
+  return numbers.reduce((previousValue, currentValue) => previousValue + currentValue);
+}
 
 // Iteration #3.1 Bonus:
-function sum() {}
+function sum(arr) {
+  let sum = 0;
 
+  arr.forEach((element) => {
+    switch (typeof element) {
+      case 'boolean':
+        sum += element === true ? 1 : 0;
+        break;
+      case 'number':
+        sum += element;
+        break;
+      case 'string':
+        sum += element.length;
+        break;
+      default:
+        throw new Error("Unsupported data type sir or ma'am");
+    }
+  });
 
+  return sum;
+}
 
 // Iteration #4: Calculate the average
 // Level 1: Array of numbers
 const numbersAvg = [2, 6, 9, 10, 7, 4, 1, 9];
 
-function averageNumbers() {}
+function averageNumbers(numbers) {
+  if (numbers.length === 0) return null;
 
+  return sumNumbers(numbers) / numbers.length;
+}
 
 // Level 2: Array of strings
 const wordsArr = ['seat', 'correspond', 'linen', 'motif', 'hole', 'smell', 'smart', 'chaos', 'fuel', 'palace'];
 
-function averageWordLength() { }
+function averageWordLength(words) {
+  if (words.length === 0) return null;
+
+  return sum(words) / words.length;
+}
 
 // Bonus - Iteration #4.1
-function avg() {}
+function avg(arr) {
+  if (arr.length === 0) return null;
+
+  return parseFloat((sum(arr) / arr.length).toFixed(2));
+}
 
 // Iteration #5: Unique arrays
 const wordsUnique = [
@@ -52,16 +89,26 @@ const wordsUnique = [
   'bring'
 ];
 
-function uniquifyArray() {}
+function uniquifyArray(arr) {
+  if (arr.length === 0) return null;
 
-
+  return [...new Set(arr)];
+}
 
 // Iteration #6: Find elements
 const wordsFind = ['machine', 'subset', 'trouble', 'starting', 'matter', 'eating', 'truth', 'disobedience'];
 
-function doesWordExist() {}
+function doesWordExist(words, check) {
+  if (words.length === 0) return null;
 
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
 
+    if (word === check) return true;
+  }
+
+  return false;
+}
 
 // Iteration #7: Count repetition
 const wordsCount = [
@@ -78,9 +125,21 @@ const wordsCount = [
   'matter'
 ];
 
-function howManyTimes() {}
+function howManyTimes(words, search) {
+  if (words.length === 0) return 0;
+  if (!words.includes(search)) return 0;
 
+  let dic = {};
 
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+
+    if (word === search && !(search in dic)) dic[word] = 1;
+    else if (word === search && search in dic) dic[word] += 1;
+  }
+
+  return dic[search];
+}
 
 // Iteration #8: Bonus
 const matrix = [
@@ -106,10 +165,51 @@ const matrix = [
   [1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48]
 ];
 
-function greatestProduct() {}
+// This one was searched in Google :)
+function greatestProduct(arr) {
+  let max = 0,
+    n = 4;
+  let result;
 
+  // iterate the rows.
+  for (let i = 0; i < n; i++) {
+    // iterate the columns.
+    for (let j = 0; j < n; j++) {
+      // check the maximum product
+      // in horizontal row.
+      if (j - 3 >= 0) {
+        result = arr[i][j] * arr[i][j - 1] * arr[i][j - 2] * arr[i][j - 3];
+        if (max < result) max = result;
+      }
 
+      // check the maximum product
+      // in vertical row.
+      if (i - 3 >= 0) {
+        result = arr[i][j] * arr[i - 1][j] * arr[i - 2][j] * arr[i - 3][j];
 
+        if (max < result) max = result;
+      }
+
+      // check the maximum product in
+      // diagonal (going through down - right)
+      if (i - 3 >= 0 && j - 3 >= 0) {
+        result = arr[i][j] * arr[i - 1][j - 1] * arr[i - 2][j - 2] * arr[i - 3][j - 3];
+
+        if (max < result) max = result;
+      }
+
+      // check the maximum product in
+      // diagonal (going through up - right)
+      if (i - 3 >= 0 && j - 1 <= 0) {
+        result = arr[i][j] * arr[i - 1][j + 1] * arr[i - 2][j + 2] * arr[i - 3][j + 3];
+
+        if (max < result) max = result;
+      }
+    }
+  }
+
+  return max;
+}
 
 // The following is required to make unit tests work.
 /* Environment setup. Do not modify the below code. */
